@@ -17,6 +17,6 @@ class WebHookController extends BaseController
       $text = $update['text'];
       $data = array('chat_id'=>$chatId,'text'=>'Replay: '.$text);
       Requests::post('https://api.telegram.org/bot'.$_ENV['BOT_TOKEN'].'/sendMessage',array(),$data);
-      abort(200);
+      return 'ok';
     }
 }
