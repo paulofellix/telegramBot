@@ -12,5 +12,7 @@ use Illuminate\Http\Request;
 | and give it the Closure to call when that URI is requested.
 |
 */
-
+$app->get('/',function(){
+  return ':)';
+});
 $app->post('/','WebHookController@index');
