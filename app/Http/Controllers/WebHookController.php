@@ -18,10 +18,9 @@ class WebHookController extends BaseController
 
       switch ($text) {
         case '/start':
-            $msg = 'Oi, eu sou o bot Paulo Félix ;)
-Meu dev master ainda está implementando minhas funções !';
+            $msg = 'Oi, eu sou o bot Paulo Félix ;)';
           break;
-          
+
         default:
             $msg = sprintf('Oi %s, você disse:
 
