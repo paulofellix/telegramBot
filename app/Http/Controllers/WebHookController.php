@@ -13,7 +13,7 @@ class WebHookController extends BaseController
     {
       $update = $request->all()['message'];
       $fromName = $update['from']['first_name'];
-      $chatId = $update['chat']['id'];
+      $chatId = !empty($_ENV['CHAT_ID']) ? $_ENV['CHAT_ID'] : $update['chat']['id'];
       $text = $update['text'];
 
       switch (strtolower($text)) {
@@ -33,8 +33,10 @@ class WebHookController extends BaseController
       }
 
       $data = array('chat_id'=>$chatId,'text'=> $msg,'parse_mode'=>'HTML');
-      // return $msg;
-      return Requests::post('https://api.telegram.org/bot'.$_ENV['BOT_TOKEN'].'/sendMessage',array(),$data);
+
+      Requests::post('https://api.telegram.org/bot'.$_ENV['BOT_TOKEN'].'/sendMessage',array(),$data);
+      return 'ok';
+
     }
 
     function openGLPISession()
@@ -72,24 +74,36 @@ class WebHookController extends BaseController
         $msg .= 'Status: ';
         switch ($ticket['Ticket.status']) {
           case 1:
-             $msg .= 'Novo';
+             $msg .= 'Novo
+';
             break;
           case 2:
-            $msg .= 'Processando (Atribuído)';
+            $msg .= 'Processando (atribuído)
+';
+            break;
           case 3:
-            $msg .= 'Processando (Planejado)';
+            $msg .= 'Processando (planejado)
+';
+            break;
           case 4:
-            $msg .= 'Pendente';
+            $msg .= 'Pendente
+';
+            break;
           case 5:
-            $msg .= 'Solucionado';
+            $msg .= 'Solucionado
+';
+            break;
           case 6:
-            $msg .= 'Fechado';
+            $msg .= 'Fechado
+';
+            break;
           default:
             break;
         }
+        $msg .= '
+';
       }
-      dd($msg);
-
+      return $msg;
     }
 
     public function getGLPIHeaders($sessionId)
