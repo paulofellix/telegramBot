@@ -7,6 +7,7 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Requests;
 
+
 class WebHookController extends BaseController
 {
     public function index(Request $request)
@@ -18,13 +19,11 @@ class WebHookController extends BaseController
 
       switch (strtolower($text)) {
         case '/start':
-          $msg = 'Oi, eu sou o bot Paulo Félix ;)';
-          $msg .= '
-Os comandos dísponiveis até agora são:
-
-/getChamados';
+          $msg = 'Oi, eu sou o bot Paulo Félix ;)'.PHP_EOL.PHP_EOL;
+          $msg .= 'Os comandos dísponiveis até agora são:'.PHP_EOL.PHP_EOL;
+          $msg .= '/getmytickets - Get all my open tickets';
           break;
-        case '/getchamados':
+        case '/getmytickets':
           $sessionId = $this->openGLPISession();
           $msg = $this->getMeusChamados($sessionId, 'paulo.felix');
           $this->killGLPISession($sessionId);
@@ -71,45 +70,34 @@ Os comandos dísponiveis até agora são:
           $tickets[] = $ticket;
       }
 
-      $msg = sprintf('Ola %s você tem um total de %d chamados em aberto, segue abaixo:
-
-',$user['User.firstname'],count($tickets));
+      $msg = sprintf('Ola %s você tem um total de %d chamados em aberto, segue abaixo:'.PHP_EOL.PHP_EOL,$user['User.firstname'],count($tickets));
       foreach ($tickets as $ticket) {
-        $msg .= '#Chamado '.$ticket['Ticket.id'].'
-';
-        $msg .= 'Titulo: '.$ticket['Ticket.name'].'
-';
+        $msg .= '#Chamado '.$ticket['Ticket.id'].PHP_EOL;
+        $msg .= 'Titulo: '.$ticket['Ticket.name'].PHP_EOL;
         $msg .= 'Status: ';
         switch ($ticket['Ticket.status']) {
           case 1:
-             $msg .= 'Novo
-';
+             $msg .= 'Novo'.PHP_EOL;
             break;
           case 2:
-            $msg .= 'Processando (atribuído)
-';
+            $msg .= 'Processando (atribuído)'.PHP_EOL;
             break;
           case 3:
-            $msg .= 'Processando (planejado)
-';
+            $msg .= 'Processando (planejado)'.PHP_EOL;
             break;
           case 4:
-            $msg .= 'Pendente
-';
+            $msg .= 'Pendente'.PHP_EOL;
             break;
           case 5:
-            $msg .= 'Solucionado
-';
+            $msg .= 'Solucionado'.PHP_EOL;
             break;
           case 6:
-            $msg .= 'Fechado
-';
+            $msg .= 'Fechado'.PHP_EOL;
             break;
           default:
             break;
         }
-        $msg .= '
-';
+        $msg .= PHP_EOL;
       }
       return $msg;
     }
