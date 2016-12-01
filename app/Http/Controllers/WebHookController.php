@@ -19,6 +19,10 @@ class WebHookController extends BaseController
       switch (strtolower($text)) {
         case '/start':
           $msg = 'Oi, eu sou o bot Paulo Félix ;)';
+          $msg .= '
+Os comandos dísponiveis até agora são:
+
+/getChamados';
           break;
         case '/getchamados':
           $sessionId = $this->openGLPISession();
@@ -26,9 +30,13 @@ class WebHookController extends BaseController
           $this->killGLPISession($sessionId);
           break;
         default:
-            $msg = sprintf('Oi %s, você disse:
-
-<b>%s</b>',$fromName,$text);
+            if (substr($text,0,1) == '/')
+            {
+              $msg = sprintf("Desculpe <b>%s</b>, a função %s ainda não foi implementada",$fromName,$text);
+            }
+            else{
+              $msg = sprintf('Desculpe <b>%s</b>, ainda não tenho resposta para %s',$fromName,$text);
+            }
           break;
       }
 
