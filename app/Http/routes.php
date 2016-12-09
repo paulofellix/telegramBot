@@ -15,4 +15,5 @@ use Illuminate\Http\Request;
 $app->get('/',function(){
   return ':)';
 });
+
 $app->post('/','WebHookController@index');
