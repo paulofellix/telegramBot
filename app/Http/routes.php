@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 $app->get('/',function(){
-  return ':)';
+  abort(401);
 });
 
 $app->post('/','WebHookController@index');
